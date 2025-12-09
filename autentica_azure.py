@@ -58,25 +58,25 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+
+MYSQL_HOST = os.getenv("MYSQL_HOST", "autenticamysql.mysql.database.azure.com")
+MYSQL_USER = os.getenv("MYSQL_USER", "autentica_admin")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "autentica@Admin")
+MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "autentica")
 # ============================================
 # MYSQL
 # ============================================
-# def get_mysql_connection():
-#     return mysql.connector.connect(
-#         host="autenticamysql.mysql.database.azure.com",
-#         user="autentica_admin",
-#         password="autentica@Admin",
-#         database="autentica",
-#         use_pure=True
-#     )
 def get_mysql_connection():
-    return mysql.connector.connect(
-        host="127.0.0.1",
-        user="root",
-        password="",
-        database="autentica",
-        use_pure=True
-    )
+ return mysql.connector.connect(
+     host="autenticamysql.mysql.database.azure.com",
+     user="autentica_admin",
+     password="autentica@Admin",
+     database="autentica",
+    "ssl": {
+        "ca": None  # Usa la CA di Windows, proprio come MySQL Workbench
+    }    
+ )
+
 
 # ============================================
 # INPUT MODEL
@@ -656,19 +656,6 @@ def root():
     return {"status": "ok", "msg": "Autentica backend V2 attivo"}
 
 
-# In[ ]:
-
-
-# ======================================================
-# MAIN SERVER
-# ======================================================
-if __name__ == "__main__":
-    config = uvicorn.Config(app, host="127.0.0.1",port=8099)
-    server = uvicorn.Server(config)
-    await server.serve()
-
-
-# In[ ]:
 
 
 
