@@ -1,0 +1,5 @@
+uvicorn==0.34.0
+mysql==0.0.3
+openai==1.82.0
+fastapi==0.115.6
+pydantic==1.10.12
