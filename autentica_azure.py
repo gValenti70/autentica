@@ -1,15 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
-#pip install pillow pillow-avif-plugin
-
-
-# In[2]:
-
-
 import os
 import json
 import time
@@ -68,10 +56,10 @@ MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "autentica")
 # ============================================
 def get_mysql_connection():
  return mysql.connector.connect(
-     host="autenticamysql.mysql.database.azure.com",
-     user="autentica_admin",
-     password="autentica@Admin",
-     database="autentica",
+     host=MYSQL_HOST,
+     user=MYSQL_USER,
+     password=MYSQL_PASSWORD,
+     database=MYSQL_DATABASE,
     "ssl": {
         "ca": None  # Usa la CA di Windows, proprio come MySQL Workbench
     }    
@@ -654,6 +642,7 @@ def stato_analisi(id_analisi: int):
 @app.get("/")
 def root():
     return {"status": "ok", "msg": "Autentica backend V2 attivo"}
+
 
 
 
