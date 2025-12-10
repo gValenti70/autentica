@@ -35,8 +35,9 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'autentica-dqcbd5brdthhbeb2'   # ⬅️ NOME CORRETTO DELLA TUA APP SERVICE
+          app-name: 'autentica'   # ⬅️ NOME CORRETTO DELLA TUA APP SERVICE
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3F2E926CF57C449DAAF27FD899615AB7 }}
           package: .    # ⬅️ Deploya TUTTA la repo così com'è, inclusa cartella certs/
+
 
