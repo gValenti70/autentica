@@ -47,7 +47,7 @@ app.add_middleware(
 )
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SSL_CA = os.path.join(BASE_DIR, "certs", "BaltimoreCyberTrustRoot.pem")
+SSL_CA = os.path.join(BASE_DIR, "certs", "DigiCertGlobalRootCA.crt.pem")
 
 MYSQL_HOST = os.getenv("MYSQL_HOST", "autenticamysql.mysql.database.azure.com")
 MYSQL_USER = os.getenv("MYSQL_USER", "autentica_admin")
