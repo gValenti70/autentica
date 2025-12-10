@@ -49,7 +49,7 @@ app.add_middleware(
 
 
 MYSQL_HOST = os.getenv("MYSQL_HOST", "autenticamysql.mysql.database.azure.com")
-MYSQL_USER = os.getenv("MYSQL_USER", "autentica_admin")
+MYSQL_USER = os.getenv("MYSQL_USER", "autentica_admin@autenticamysql")
 MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "autentica@Admin")
 MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "autentica")
 # ============================================
@@ -637,7 +637,7 @@ def test_mysql():
         cnx.close()
         return {"status": "ok"}
     except Exception as e:
-        return {"status": "error", "error": str(e)}
+        return {"status": "error", "error": str(e),"user":MYSQL_USER}
 
 
 @app.get("/debug/fs")
