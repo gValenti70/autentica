@@ -46,7 +46,6 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-
 MYSQL_HOST = os.getenv("MYSQL_HOST", "autenticamysql.mysql.database.azure.com")
 MYSQL_USER = os.getenv("MYSQL_USER", "autentica_admin")
 MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "autentica@Admin")
