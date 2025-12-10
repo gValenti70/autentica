@@ -46,6 +46,9 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SSL_CA = os.path.join(BASE_DIR, "certs", "BaltimoreCyberTrustRoot.pem")
+
 MYSQL_HOST = os.getenv("MYSQL_HOST", "autenticamysql.mysql.database.azure.com")
 MYSQL_USER = os.getenv("MYSQL_USER", "autentica_admin")
 MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "autentica@Admin")
@@ -59,9 +62,8 @@ def get_mysql_connection():
         user=MYSQL_USER,
         password=MYSQL_PASSWORD,
         database=MYSQL_DATABASE,
-        ssl={
-            "ca": None  # Usa la CA di Windows, proprio come MySQL Workbench
-        }
+        ssl_ca=SSL_CA,
+        ssl_verify_cert=True
     )
 
 
@@ -612,35 +614,23 @@ def stato_analisi(id_analisi: int):
 # ============================================
 # HEALTHCHECK
 # ============================================
-@app.get("/")
-def root():
+
+@app.get("/test-mysql")
+def test_mysql():
     try:
         cnx = mysql.connector.connect(
             host=MYSQL_HOST,
             user=MYSQL_USER,
             password=MYSQL_PASSWORD,
             database=MYSQL_DATABASE,
-            ssl_ca="/home/site/wwwroot/certs/BaltimoreCyberTrustRoot.pem",
+            ssl_ca=SSL_CA,
             ssl_verify_cert=True
         )
-        cur = cnx.cursor()
-        cur.execute("SELECT 1")
-        result = cur.fetchone()
-
-        cur.close()
         cnx.close()
-
-        return {
-            "status": "ok",
-            "mysql": "connected",
-            "test_query": result
-        }
-
+        return {"status": "ok"}
     except Exception as e:
-        return {
-            "status": "error",
-            "error": str(e)
-        }
+        return {"status": "error", "error": str(e)}
+
 
 @app.get("/debug/fs")
 def debug_fs():
