@@ -55,15 +55,15 @@ MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "autentica")
 # MYSQL
 # ============================================
 def get_mysql_connection():
- return mysql.connector.connect(
-     host=MYSQL_HOST,
-     user=MYSQL_USER,
-     password=MYSQL_PASSWORD,
-     database=MYSQL_DATABASE,
-    "ssl": {
-        "ca": None  # Usa la CA di Windows, proprio come MySQL Workbench
-    }    
- )
+    return mysql.connector.connect(
+        host=MYSQL_HOST,
+        user=MYSQL_USER,
+        password=MYSQL_PASSWORD,
+        database=MYSQL_DATABASE,
+        ssl={
+            "ca": None  # Usa la CA di Windows, proprio come MySQL Workbench
+        }
+    )
 
 
 # ============================================
