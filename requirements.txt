@@ -1,12 +1,13 @@
 fastapi
 uvicorn
-#gunicorn
+gunicorn
 mysql-connector-python
 pillow
 pillow-avif-plugin
 python-dotenv
 openai
 pydantic
+
 
 
 
