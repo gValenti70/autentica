@@ -6,6 +6,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import mysql.connector
+from mysql.connector.constants import ClientFlag
 from difflib import SequenceMatcher
 from openai import AzureOpenAI
 import logging
@@ -46,8 +47,6 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SSL_CA = os.path.join(BASE_DIR, "certs", "DigiCertGlobalRootCA.crt.pem")
 
 MYSQL_HOST = os.getenv("MYSQL_HOST", "autenticamysql.mysql.database.azure.com")
 MYSQL_USER = os.getenv("MYSQL_USER", "autentica_admin")
@@ -56,6 +55,12 @@ MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "autentica")
 # ============================================
 # MYSQL
 # ============================================
+
+
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SSL_CA = os.path.join(BASE_DIR, "certs", "DigiCertGlobalRootCA.crt.pem")
+
 def get_mysql_connection():
     return mysql.connector.connect(
         host=MYSQL_HOST,
@@ -63,7 +68,10 @@ def get_mysql_connection():
         password=MYSQL_PASSWORD,
         database=MYSQL_DATABASE,
         ssl_ca=SSL_CA,
-        ssl_verify_cert=True
+        ssl_verify_cert=True,
+        client_flags=[ClientFlag.SSL],
+        ssl_disabled=False,
+        ssl_verify_identity=False   # <-- CHIAVE DELLA SOLUZIONE
     )
 
 
