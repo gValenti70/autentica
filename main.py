@@ -684,6 +684,7 @@ def debug_fs():
         "list_certs": os.listdir(os.path.join(base_path, "certs")) if os.path.exists(os.path.join(base_path, "certs")) else "missing",
         "working_dir": os.getcwd()
     }
+
 @app.get("/whereami")
 def whereami():
     import os
