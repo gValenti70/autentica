@@ -609,32 +609,6 @@ def stato_analisi(id_analisi: int):
     }
 
 
-# @app.get("/stato-analisi/{id_analisi}")
-# def stato_analisi(id_analisi: int):
-
-#     cnx = get_mysql_connection()
-#     cur = cnx.cursor(dictionary=True)
-
-#     cur.execute("SELECT * FROM analisi WHERE id=%s", (id_analisi,))
-#     analisi = cur.fetchone()
-
-#     cur.execute("""
-#         SELECT step, foto_base64, json_response
-#         FROM analisi_foto
-#         WHERE id_analisi=%s
-#         ORDER BY step ASC
-#     """, (id_analisi,))
-#     foto = cur.fetchall()
-
-#     cur.close()
-#     cnx.close()
-
-#     return {
-#         "analisi": analisi,
-#         "foto": foto
-#     }
-
-
 # ============================================
 # HEALTHCHECK
 # ============================================
