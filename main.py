@@ -647,9 +647,7 @@ def root():
             user=MYSQL_USER,
             password=MYSQL_PASSWORD,
             database=MYSQL_DATABASE,
-            ssl={
-                "ca": None  # Usa la CA di Windows, proprio come MySQL Workbench
-            }
+            ssl_disabled=True
         )
         cur = cnx.cursor()
         cur.execute("SELECT 1")
