@@ -647,7 +647,7 @@ def root():
             user=MYSQL_USER,
             password=MYSQL_PASSWORD,
             database=MYSQL_DATABASE,
-            ssl_ca="/home/site/wwwroot/certs/BaltimoreCyberTrustRoot.crt.pem",
+            ssl_ca="/home/site/wwwroot/certs/BaltimoreCyberTrustRoot.pem",
             ssl_verify_cert=True
         )
         cur = cnx.cursor()
