@@ -2,8 +2,9 @@ fastapi
 uvicorn
 openai>=1.3.8
 mysql-connector-python
-#pillow
-#pillow-avif-plugin
-#pydantic
+pillow
+pillow-avif-plugin
+pydantic
+
 
 
