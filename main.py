@@ -641,7 +641,34 @@ def stato_analisi(id_analisi: int):
 # ============================================
 @app.get("/")
 def root():
-    return {"status": "ok", "msg": "Autentica backend V2 attivo"}
+    try:
+        cnx = mysql.connector.connect(
+            host=MYSQL_HOST,
+            user=MYSQL_USER,
+            password=MYSQL_PASSWORD,
+            database=MYSQL_DATABASE,
+            ssl={
+                "ca": None  # Usa la CA di Windows, proprio come MySQL Workbench
+            }
+        )
+        cur = cnx.cursor()
+        cur.execute("SELECT 1")
+        result = cur.fetchone()
+
+        cur.close()
+        cnx.close()
+
+        return {
+            "status": "ok",
+            "mysql": "connected",
+            "test_query": result
+        }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }
 
 
 
