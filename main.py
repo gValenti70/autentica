@@ -632,12 +632,18 @@ def test_mysql():
             password=MYSQL_PASSWORD,
             database=MYSQL_DATABASE,
             ssl_ca=SSL_CA,
-            ssl_verify_cert=True
+            ssl_verify_cert=True,
+            ssl_verify_identity=False
         )
         cnx.close()
         return {"status": "ok"}
     except Exception as e:
-        return {"status": "error", "error": str(e),"user":MYSQL_USER}
+        return {
+            "status": "error",
+            "error": str(e),
+            "user": MYSQL_USER,
+            "ssl_ca": SSL_CA
+        }
 
 
 @app.get("/debug/fs")
