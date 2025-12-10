@@ -1,4 +1,4 @@
-name: Deploy Python Backend to Azure App Service (NO ORYX)
+name: Build and deploy Python app to Azure Web App - autentica
 
 on:
   push:
@@ -9,11 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -21,16 +19,20 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies (optional for local validation)
+      - name: Install dependencies
         run: |
           pip install -r requirements.txt
 
-      - name: Upload artifact for deployment
+      - name: Prepare artifact folder
+        run: |
+          mkdir artifact
+          cp -R * artifact/
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: |
-            .   # ⬅️ copia TUTTA la repo, inclusa certs/
+          path: artifact/
 
 
   deploy:
@@ -38,14 +40,15 @@ jobs:
     needs: build
 
     steps:
-      - name: Download artifact from build
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: python-app
+          path: .
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'autentica'                      # <-- nome app service
+          app-name: "autentica"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3F2E926CF57C449DAAF27FD899615AB7 }}
-          package: .                                 # ⬅️ DEPLOY DIRETTO SENZA ORYX
+          package: .
