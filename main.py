@@ -667,6 +667,10 @@ def whereami():
         "absolute_path": os.path.abspath("."),
     }
 
+@app.get("/__routes__")
+def list_routes():
+    return [{"path": r.path, "name": r.name} for r in app.routes]
+
 
 
 
