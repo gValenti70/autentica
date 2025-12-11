@@ -677,17 +677,36 @@ def list_routes():
     
 @app.get("/ssl-info")
 def ssl_info():
-    import ssl, socket
+    import ssl, socket, traceback
     
     host = MYSQL_HOST
     port = 3306
 
-    ctx = ssl.create_default_context()
-    with ctx.wrap_socket(socket.socket(), server_hostname=host) as s:
-        s.connect((host, port))
-        cert = s.getpeercert()
+    try:
+        context = ssl.create_default_context()
 
-    return cert
+        conn = context.wrap_socket(
+            socket.socket(socket.AF_INET),
+            server_hostname=host
+        )
+        conn.settimeout(5)
+        conn.connect((host, port))
+
+        cert = conn.getpeercert()
+        conn.close()
+
+        return {
+            "status": "ok",
+            "cert": cert
+        }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e),
+            "trace": traceback.format_exc()
+        }
+
 
 
 
