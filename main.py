@@ -655,10 +655,10 @@ def debug_fs():
 
     return {
         "exists_wwwroot": os.path.exists(base_path),
-        "exists_certs_dir": os.path.exists(os.path.join(base_path, "certs")),
+        "exists_certs_dir": os.path.exists(os.path.join(base_path, "")),
         "exists_cert_file": os.path.exists(cert_path),
         "list_wwwroot": os.listdir(base_path) if os.path.exists(base_path) else "missing",
-        "list_certs": os.listdir(os.path.join(base_path, "certs")) if os.path.exists(os.path.join(base_path, "certs")) else "missing",
+        "list_certs": os.listdir(os.path.join(base_path, "")) if os.path.exists(os.path.join(base_path, "")) else "missing",
         "working_dir": os.getcwd()
     }
 
