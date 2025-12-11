@@ -674,6 +674,20 @@ def whereami():
 @app.get("/__routes__")
 def list_routes():
     return [{"path": r.path, "name": r.name} for r in app.routes]
+    
+@app.get("/ssl-info")
+def ssl_info():
+    import ssl, socket
+    
+    host = MYSQL_HOST
+    port = 3306
+
+    ctx = ssl.create_default_context()
+    with ctx.wrap_socket(socket.socket(), server_hostname=host) as s:
+        s.connect((host, port))
+        cert = s.getpeercert()
+
+    return cert
 
 
 
