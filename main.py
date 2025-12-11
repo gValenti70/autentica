@@ -659,8 +659,7 @@ def debug_fs():
         "exists_cert_file": os.path.exists(cert_path),
         "list_wwwroot": os.listdir(base_path) if os.path.exists(base_path) else "missing",
         "list_certs": os.listdir(os.path.join(base_path, "")) if os.path.exists(os.path.join(base_path, "")) else "missing",
-        "working_dir": os.getcwd(),
-        "mobbestemmio":"sì"
+        "working_dir": os.getcwd()
     }
 
 @app.get("/whereami")
