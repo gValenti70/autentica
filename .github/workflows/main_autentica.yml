@@ -29,7 +29,7 @@ jobs:
           python -m venv antenv
           source antenv/bin/activate
           pip install -r requirements.txt
-                
+
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
@@ -38,7 +38,6 @@ jobs:
             .
             certs/**
             !antenv/
-
 
   deploy:
     runs-on: ubuntu-latest
@@ -57,4 +56,5 @@ jobs:
           app-name: 'autentica'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3F2E926CF57C449DAAF27FD899615AB7 }}
+
 
