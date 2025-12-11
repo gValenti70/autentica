@@ -59,7 +59,7 @@ MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "autentica")
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SSL_CA = os.path.join(BASE_DIR, "certs", "DigiCertGlobalRootCA.crt.pem")
+SSL_CA = os.path.join(BASE_DIR, "DigiCertGlobalRootCA.crt.pem")
 
 def get_mysql_connection():
     return mysql.connector.connect(
@@ -651,7 +651,7 @@ def debug_fs():
     import os
 
     base_path = "/home/site/wwwroot"
-    cert_path = "/home/site/wwwroot/certs/DigiCertGlobalRootCA.crt.pem"
+    cert_path = "/home/site/wwwroot/DigiCertGlobalRootCA.crt.pem"
 
     return {
         "exists_wwwroot": os.path.exists(base_path),
