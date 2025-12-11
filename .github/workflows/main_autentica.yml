@@ -7,59 +7,55 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
 
     steps:
-      # Checkout repo
-      - name: Checkout
+      # ============================
+      # 1) Checkout
+      # ============================
+      - name: Checkout source code
         uses: actions/checkout@v4
 
-      # Set Python version
-      - name: Set up Python
+
+      # ============================
+      # 2) Setup Python
+      # ============================
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      # Install dependencies (opzionale ma utile)
+      # (Opzionale ma utile)
       - name: Install dependencies
         run: |
           python -m venv antenv
           source antenv/bin/activate
           pip install -r requirements.txt
 
-      # Upload artifact (INCLUDE certs/**)
-      - name: Upload artifact for deployment
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-app
-          path: |
-            .
-            !antenv/
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
+      # ============================
+      # 3) Create ZIP for deploy
+      # ============================
+      # 🔥 IMPORTANTISSIMO:
+      # Copia TUTTI i file tranne la venv
+      # Così DigiCertGlobalRootCA.crt.pem, main.py, requirements.txt,
+      # config ecc. finiscono in /wwwroot.
+      # ============================
+      - name: Create ZIP package
+        run: |
+          zip -r release.zip ./* -x "antenv/*" ".git/*" ".github/*"
 
-    steps:
-      # Scarica artifact
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: python-app
 
-      # Deploy diretto su Azure Web App tramite publish profile
-      - name: Deploy to Azure Web App
+      # ============================
+      # 4) Deploy ZIP to Azure
+      # ============================
+      - name: Deploy to Azure Web App (ZIP Deploy)
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'autentica'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3F2E926CF57C449DAAF27FD899615AB7 }}
-
-          #publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3F2E926CF57C449DAAF27FD899615AB7 }}
-
-
-
-
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+          package: release.zip
