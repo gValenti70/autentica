@@ -14,11 +14,10 @@ jobs:
 
     steps:
       # ============================
-      # 1) Checkout
+      # 1) Checkout sorgente
       # ============================
       - name: Checkout source code
         uses: actions/checkout@v4
-
 
       # ============================
       # 2) Setup Python
@@ -28,29 +27,22 @@ jobs:
         with:
           python-version: '3.11'
 
-      # (Opzionale ma utile)
+      # (Opzionale ma utile per validare requirements)
       - name: Install dependencies
         run: |
           python -m venv antenv
           source antenv/bin/activate
           pip install -r requirements.txt
 
-
       # ============================
-      # 3) Create ZIP for deploy
-      # ============================
-      # 🔥 IMPORTANTISSIMO:
-      # Copia TUTTI i file tranne la venv
-      # Così DigiCertGlobalRootCA.crt.pem, main.py, requirements.txt,
-      # config ecc. finiscono in /wwwroot.
+      # 3) Crea ZIP completo per deploy
       # ============================
       - name: Create ZIP package
         run: |
           zip -r release.zip ./* -x "antenv/*" ".git/*" ".github/*"
 
-
       # ============================
-      # 4) Deploy ZIP to Azure
+      # 4) Deploy ZIP su Azure App Service
       # ============================
       - name: Deploy to Azure Web App (ZIP Deploy)
         uses: azure/webapps-deploy@v3
