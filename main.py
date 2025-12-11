@@ -651,7 +651,7 @@ def debug_fs():
     import os
 
     base_path = "/home/site/wwwroot"
-    cert_path = "/home/site/wwwroot/certs/DigiCertGlobalRootCA.crt.pem"
+    cert_path = "/home/site/wwwroot/certs/BaltimoreCyberTrustRoot.crt.pem"
 
     return {
         "exists_wwwroot": os.path.exists(base_path),
