@@ -37,7 +37,6 @@ jobs:
           name: python-app
           path: |
             .
-            certs/**
             !antenv/
 
   deploy:
@@ -60,6 +59,7 @@ jobs:
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3F2E926CF57C449DAAF27FD899615AB7 }}
 
           #publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3F2E926CF57C449DAAF27FD899615AB7 }}
+
 
 
 
