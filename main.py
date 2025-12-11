@@ -59,7 +59,7 @@ MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "autentica")
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SSL_CA = os.path.join(BASE_DIR, "certs", "BaltimoreCyberTrustRoot.crt.pem")
+SSL_CA = os.path.join(BASE_DIR, "certs", "DigiCertGlobalRootCA.crt.pem")
 
 def get_mysql_connection():
     return mysql.connector.connect(
