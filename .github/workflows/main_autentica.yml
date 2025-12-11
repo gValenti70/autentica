@@ -1,8 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
-
-name: Build and deploy Python app to Azure Web App - autentica
+name: Deploy Autentica
 
 on:
   push:
@@ -11,33 +7,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read  # Required for checkout
 
     steps:
-      # Checkout repo
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      # Configure Python
-      - name: Set up Python version
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      # Optional local build to ensure dependencies install correctly
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
-      # 🚀 Deploy directly to Azure Web App (no artifacts, no oryx packaging)
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'autentica'   # ⬅️ NOME CORRETTO DELLA TUA APP SERVICE
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3F2E926CF57C449DAAF27FD899615AB7 }}
-          package: .    # ⬅️ Deploya TUTTA la repo così com'è, inclusa cartella certs/
-
-
+          app-name: 'autentica'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+          package: .
