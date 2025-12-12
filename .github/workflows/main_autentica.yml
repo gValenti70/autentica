@@ -18,7 +18,6 @@ jobs:
       # ZIP SOLO la cartella app/
       - name: Create release ZIP
         run: |
-          cd app
           zip -r ../release.zip .
 
       - name: Deploy to Azure Web App
@@ -27,3 +26,4 @@ jobs:
           app-name: 'autentica'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
           package: release.zip
+
