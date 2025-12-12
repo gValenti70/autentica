@@ -39,7 +39,8 @@ jobs:
       # ============================
       - name: Create ZIP package
         run: |
-          zip -r release.zip ./* -x "antenv/*" ".git/*" ".github/*"
+          cd app
+          zip -r ../release.zip ./*
 
       # ============================
       # 4) Deploy ZIP su Azure App Service
@@ -51,3 +52,4 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
           package: release.zip
+
