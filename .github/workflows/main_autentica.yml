@@ -11,19 +11,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
+      # ============================
+      # 1) Checkout del repository
+      # ============================
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ZIP SOLO la cartella app/
+      # ============================
+      # 2) Creazione dello ZIP
+      # ============================
+      # ZIPPA TUTTO ciò che sta nella root
+      # Escludendo solo .git e .github
+      # ============================
       - name: Create release ZIP
         run: |
-          zip -r ../release.zip .
+          zip -r release.zip . -x ".git/*" ".github/*"
 
-      - name: Deploy to Azure Web App
+      # ============================
+      # 3) Deploy su Azure
+      # ============================
+      - name: Deploy to Azure Web App (ZIP Deploy)
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'autentica'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
           package: release.zip
-
