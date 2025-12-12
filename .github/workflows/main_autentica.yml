@@ -9,47 +9,21 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
-      # ============================
-      # 1) Checkout sorgente
-      # ============================
-      - name: Checkout source code
+
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ============================
-      # 2) Setup Python
-      # ============================
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      # (Opzionale ma utile per validare requirements)
-      - name: Install dependencies
-        run: |
-          python -m venv antenv
-          source antenv/bin/activate
-          pip install -r requirements.txt
-
-      # ============================
-      # 3) Crea ZIP completo per deploy
-      # ============================
-      - name: Create ZIP package
+      # ZIP SOLO la cartella app/
+      - name: Create release ZIP
         run: |
           cd app
-          zip -r ../release.zip ./*
+          zip -r ../release.zip .
 
-      # ============================
-      # 4) Deploy ZIP su Azure App Service
-      # ============================
-      - name: Deploy to Azure Web App (ZIP Deploy)
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'autentica'
-          slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
           package: release.zip
-
