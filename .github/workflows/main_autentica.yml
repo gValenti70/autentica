@@ -1,36 +1,21 @@
-name: Build and deploy Python app to Azure Web App - autentica
+name: Deploy Python App
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # ============================
-      # 1) Checkout del repository
-      # ============================
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # ============================
-      # 2) Creazione dello ZIP
-      # ============================
-      # ZIPPA TUTTO ciò che sta nella root
-      # Escludendo solo .git e .github
-      # ============================
-      - name: Create release ZIP
-        run: |
-          zip -r release.zip . -x ".git/*" ".github/*"
+      - name: Create ZIP
+        run: zip -r release.zip . -x ".git/*" ".github/*"
 
-      # ============================
-      # 3) Deploy su Azure
-      # ============================
-      - name: Deploy to Azure Web App (ZIP Deploy)
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'autentica'
