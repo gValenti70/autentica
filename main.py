@@ -14,7 +14,7 @@ import uvicorn
 from PIL import Image
 import pillow_avif
 import base64
-import 
+import io
 from pymongo import MongoClient
 # LOGGING
 logging.basicConfig(level=logging.INFO, format="%(message)s")
