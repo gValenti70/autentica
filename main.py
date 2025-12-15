@@ -723,4 +723,15 @@ def test_mongo():
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
+import socket
+
+@app.get("/debug-dns")
+def debug_dns():
+    host = "autentica.global.mongocluster.cosmos.azure.com"
+    return {
+        "host": host,
+        "resolved": socket.getaddrinfo(host, None)
+    }
+
+
 
