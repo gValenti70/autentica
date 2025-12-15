@@ -7,3 +7,4 @@ pillow-avif-plugin
 python-dotenv
 openai
 pydantic
+pymongo
