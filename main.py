@@ -14,7 +14,8 @@ import uvicorn
 from PIL import Image
 import pillow_avif
 import base64
-import io
+import 
+from pymongo import MongoClient
 # LOGGING
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -706,5 +707,20 @@ def ssl_info():
             "error": str(e),
             "trace": traceback.format_exc()
         }
+
+
+@app.get("/test-mongo")
+def test_mongo():
+    uri = os.getenv("MONGO_URI")
+    if not uri:
+        return {"status": "error", "error": "MONGO_URI missing"}
+
+    try:
+        client = MongoClient(uri, serverSelectionTimeoutMS=5000)
+        # ping admin
+        client.admin.command("ping")
+        return {"status": "ok", "host": client.address[0], "port": client.address[1]}
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
 
 
